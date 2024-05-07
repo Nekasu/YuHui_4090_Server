@@ -37,8 +37,8 @@ cd AesFA
 ```python train.py```
 
 **Test:**
-- Download pre-trained AesFA model [main.pth](https://drive.google.com/file/d/1Y3OutPAsmPmJcnZs07ZVbDFf6nn3RzxR/view?usp=drive_link)
-- Change options about testing in the Config.py file.
+- [x] Download pre-trained AesFA model [main.pth](https://drive.google.com/file/d/1Y3OutPAsmPmJcnZs07ZVbDFf6nn3RzxR/view?usp=drive_link)
+- [x] Change options about testing in the Config.py file.
 - Change phase into 'test' and other options (ex) data info (num, dir), image load and crop size.
 - If you want to use content and style images with different sizes, you can set test_content_size and test_style_size differently.
 - Also, you can choose whether you want to translate using multi_to_multi or only translate content images using each style image.        

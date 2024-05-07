@@ -4,8 +4,8 @@ class Config:
 
     data_num = 60000        # Maximum # of training data
 
-    content_dir = './COCO'
-    style_dir = './WikiArt'
+    content_dir = '/mnt/sda/Dataset/Detection/COCO/test2017'
+    style_dir = '/mnt/sda/Dataset/Detection/WikiArt'
     
     file_n = 'main'
     log_dir = './log/' + file_n
@@ -16,8 +16,8 @@ class Config:
         multi_to_multi = True
         test_content_size = 256
         test_style_size = 256
-        content_dir = './testDataset'
-        style_dir = './testDataset'
+        content_dir = '/mnt/sda/Dataset/Detection/COCO/test2017'
+        style_dir = '/mnt/sda/Dataset/Detection/WikiArt'
         img_dir = './output/'+file_n+'/'+str(test_content_size)
 
     elif phase == 'style_blending':
@@ -29,7 +29,7 @@ class Config:
         img_dir = './output/'+file_n+'_blending_' + str(blend_load_size)
         
     # VGG pre-trained model
-    vgg_model = './vgg_normalised.pth'
+    vgg_model = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/vgg_model/vgg_normalised.pth'
 
     ## basic parameters
     n_iter = 160000
