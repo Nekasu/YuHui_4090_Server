@@ -5,15 +5,29 @@ import numpy as np
 from scipy.ndimage.filters import gaussian_filter 
 
 def gaussian_blur(image, sigma):
-    # 将图像转换为numpy数组
+    """
+    Apply Gaussian blur to a PIL image
+
+    Parameters
+    ----------
+    image: PIL Image
+        Image to be blurred
+    sigma: float
+        Standard deviation for Gaussian kernel
+
+    Returns
+    -------
+    PIL Image
+        Blurred image
+    """
+    # Convert PIL image to numpy array
     img = np.array(image)
-    
-    # 对图像进行高斯模糊处理
+
+    # Perform Gaussian blur on image
     blurred_img = gaussian_filter(img, sigma=sigma, truncate=2.0)
-    
-    # 将处理后的图像转换回PIL图像对象
+
+    # Convert back to PIL image and return
     blurred_image = Image.fromarray(blurred_img.astype('uint8'))
-    
     return blurred_image
 
 

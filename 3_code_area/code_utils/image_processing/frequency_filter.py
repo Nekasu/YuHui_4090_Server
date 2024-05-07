@@ -3,25 +3,53 @@ import numpy as np
 from utils import convert_into_frequency as cif
 
 def show_low_frequency_part(img):
+    """
+    Applies low pass filter to the image and shows the result.
+
+    Parameters
+    ----------
+    img : PIL.Image.Image
+        Input image
+
+    Returns
+    -------
+    PIL.Image.Image
+        Result of the low pass filter
+    """
     f = low_pass_filter(img)
 
-    # inverse the fourier transform
+    # Inverse the fourier transform
     img_back = np.fft.ifft2(f)
 
-    # take the real part of the image
+    # Take the real part of the image
     img_back = np.abs(img_back)
 
-    # show the image
+    # Show the image
     img_back = Image.fromarray(img_back)
     img_back.show()
     return img_back
 
 
+
+
 def show_high_frequency_part(img):
-    f = high_pass_filter(img)
+    """
+    Applies high pass filter to the image and shows the result.
+
+    Parameters
+    ----------
+    img : PIL.Image.Image
+        Input image
+
+    Returns
+    -------
+    PIL.Image.Image
+        Result of the high pass filter
+    """
+    f = high_pass_filter(img)  # apply high pass filter
 
     # shift the zero frequency component back to the corner
-    f_ishift = np.fft.ifftshift(f)
+    f_ishift = np.fft.ifftshift(f)  # shift the fft image for visualization
 
     # inverse the fourier transform
     img_back = np.fft.ifft2(f_ishift)
@@ -35,20 +63,53 @@ def show_high_frequency_part(img):
     return img_back
 
 
+
 # take the low frequency component
 def low_pass_filter(img):
-    f = cif.get_frequency_highcenter(img)
-    rows, cols = img.size
-    crow, ccol = rows//2, cols//2
-    f[crow-125:crow+125, ccol-125:ccol+125] = 0
+    """
+    Applies low pass filter to the image and returns the frequency domain result.
 
-    return f
+    The low pass filter removes high frequency components around the center of the image.
+
+    Parameters
+    ----------
+    img : PIL.Image.Image
+        Input image
+
+    Returns
+    -------
+    numpy.ndarray
+        Frequency domain result of low pass filter
+    """
+    f = cif.get_frequency_highcenter(img)  # get the frequency domain of the image
+    rows, cols = img.size  # get the size of the image
+    crow, ccol = rows//2, cols//2  # calculate the center of the image
+    f[crow-125:crow+125, ccol-125:ccol+125] = 0  # set the high frequency components around the center to zero
+
+    return f  # return the frequency domain result
+
 
 def high_pass_filter(img):
-    f = cif.get_frequency_highcenter(img)
-    f = f - low_pass_filter(img)
+    """
+    Applies high pass filter to the image and returns the frequency domain result.
 
-    return f
+    The high pass filter removes low frequency components around the center of the image.
+
+    Parameters
+    ----------
+    img : PIL.Image.Image
+        Input image
+
+    Returns
+    -------
+    numpy.ndarray
+        Frequency domain result of high pass filter
+    """
+    f = cif.get_frequency_highcenter(img)  # get the frequency domain of the image
+    f = f - low_pass_filter(img)  # remove low frequency components around the center
+
+    return f  # return the frequency domain result
+
 
 
 def main():
