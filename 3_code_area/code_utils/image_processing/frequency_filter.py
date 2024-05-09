@@ -1,6 +1,6 @@
 from PIL import Image
 import numpy as np
-from utils import convert_into_frequency as cif
+import convert_into_frequency as cif
 
 def show_low_frequency_part(img):
     """
@@ -113,7 +113,7 @@ def high_pass_filter(img):
 
 
 def main():
-    img = Image.open('../0_images/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg')
+    img = Image.open('/mnt/sda/zxt/z_datas/imgs/1_origin_data/01_cameraman.png')
     show_low_frequency_part(img)
     show_high_frequency_part(img)
 
