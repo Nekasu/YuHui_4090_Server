@@ -4,6 +4,11 @@
 
 - - -
 
+# 个人注释
+
+1. 本文的运行环境为`YuHui_4090`中的`zxt_cuda_11.7`
+
+
 # 🚀 Metric3D Project 🚀
 
 **Official PyTorch implementation of Metric3Dv1 and Metric3Dv2:**   
@@ -226,7 +231,6 @@ Our models also show powerful performance on normal benchmarks.
 ### One-line Installation
 For the ViT models, use the following environment：
 
-- 注意！ViT模型对应的这个requirements_V2.txt文件里使用了mmcv！配置很烦！谨慎使用！
 
 ```bash
 pip install -r requirements_v2.txt
