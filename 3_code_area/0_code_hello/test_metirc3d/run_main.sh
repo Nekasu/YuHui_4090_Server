@@ -1,1 +1,0 @@
-python /mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/main.py

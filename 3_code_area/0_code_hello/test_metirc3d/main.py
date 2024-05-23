@@ -1,5 +1,4 @@
 from pydoc import visiblename
-from warnings import catch_warnings
 import cv2
 import torch
 import numpy as np
@@ -191,7 +190,7 @@ def main() -> None:
     # write_depth(file_path=file_path, pred_depth=pred_depth)
 
     # # or display and save it
-    merged = merge_depth(pred_depth=pred_depth, t=4)
+    merged = merge_depth(pred_depth=pred_depth, t=0)
     print(f"after merging, the depth_info is {merged}")
     display_save_depth(pred_depth=merged, path=visible_file_path)
     
