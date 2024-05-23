@@ -175,6 +175,7 @@ def main() -> None:
     # model inference
     with torch.no_grad():
         pred_depth, confidence, output_dict = model.inference({'input': rgb})
+        
     
     # post processing
     pred_depth = unpad(pred_depth, rgb_origin, pad_info)
