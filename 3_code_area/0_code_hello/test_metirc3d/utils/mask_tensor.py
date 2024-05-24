@@ -57,10 +57,10 @@ def show_save_mask(depth_tensor: torch.Tensor, t, save_path='/mnt/sda/zxt/3_code
     # 将数值不为4的分量全部改成0
     masked_tensor = torch.where(depth_tensor == t, torch.tensor(1.0), torch.tensor(0.0))
 
-    print("Original Tensor:")
-    print(depth_tensor)
-    print("Masked Tensor:")
-    print(masked_tensor)
+    # print("Original Tensor:")
+    # print(depth_tensor)
+    # print("Masked Tensor:")
+    # print(masked_tensor)
 
     # 将 Tensor 转换为 NumPy 数组
     masked_array = masked_tensor.numpy()
