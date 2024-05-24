@@ -7,6 +7,7 @@ def make_black_transparent(img_path: str, save_path: str):
     将PNG图像中的黑色部分变成透明。
 
     img_path: str, 输入图像路径
+    
     save_path: str, 输出图像保存路径
     """
     # 读取图像并转换为RGBA
