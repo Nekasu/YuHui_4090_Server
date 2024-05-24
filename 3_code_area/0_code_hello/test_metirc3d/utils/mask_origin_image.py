@@ -1,17 +1,11 @@
-"""
-此程序将根据深度预测信息，将原始图像进行mask操作，得到mask后的图像
-"""
-
-from cv2 import merge
-from scipy.__config__ import show
 import torch
 import numpy as np
-import matplotlib.pyplot as plt
+from PIL import Image
 import mask_tensor
 import use_metric3d
 import engine
 
-def show_save_masked_img(depth_tensor:torch.Tensor, t, origin_path:str, save_path:str):
+def show_save_masked_img(depth_tensor: torch.Tensor, t, origin_path: str, save_path: str):
     """
     一个用于将深度预测信息生成掩膜, 并应用到原图像上的函数.
 
@@ -30,54 +24,49 @@ def show_save_masked_img(depth_tensor:torch.Tensor, t, origin_path:str, save_pat
         depth_tensor=depth_tensor,
         t=t,
         mode='tensor'
-    )
-    print(mask)
+    ).byte()  # 确保掩膜为uint8类型
+
     # 读取图像
-    origin_img = plt.imread(origin_path)
-    
+    origin_img = Image.open(fp=origin_path)
+    origin_img_array = np.array(origin_img)
+
     # 转换为Tensor类型
-    origin_img_tensor = torch.from_numpy(origin_img)
-    
-    # print(f"size of origin_img_tensor is {origin_img_tensor.size()}")
-    # print(f"size of mask is {mask.size()}")
-    
+    origin_img_tensor = torch.from_numpy(origin_img_array).byte()
+
     # unsqueeze 在最后一个维度添加一个维度
     expanded_mask = mask.unsqueeze(2)  # 形状 [853, 1280, 1]
-    print(expanded_mask.size())
+
     # 广播 mask 使其与 origin_img_tensor 相同形状
     expanded_mask = expanded_mask.expand(-1, -1, 3)  # 形状 [853, 1280, 3]
-    
-    
-    # 若掩膜中数值为0, 则图像对应位置也设置为0. 
-    # 由于掩膜对应区域为0与1, 0代表需要消失的部分, 1表示不变的部分, 所以将原始图像张量(Tensor)与掩膜张量(Tensor)逐元素相乘, 即可得到掩膜处理后的图像
+
+    # 逐元素相乘得到掩膜处理后的图像
     masked_img_tensor = origin_img_tensor * expanded_mask
+
+    # 将结果转换为NumPy数组并转换为uint8类型
+    masked_img_array = masked_img_tensor.numpy().astype(np.uint8)
+    print(masked_img_array.shape)
     
+    masked_img_image = Image.fromarray(masked_img_array)
 
-    masked_img_array = masked_img_tensor.numpy()
-
-     # 使用 Matplotlib 显示带有掩膜的 图像
-    plt.imshow(masked_img_array)
-    plt.colorbar()  # 显示颜色条
-    plt.title('Masked Image')
-    plt.axis('off')  # 关闭坐标轴
+    # 使用 PIL.Image 显示带有掩膜的 图像
+    masked_img_image.show()
 
     # 保存图像到文件
-    plt.savefig(save_path, bbox_inches='tight')
-    plt.show()
+    if save_path is not None:
+        masked_img_image.save(fp=save_path)
 
 if __name__ == '__main__':
-    
     img_path = '/mnt/sda/zxt/z_datas/imgs/1_origin_data/large_perspective_1.png'
     save_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/'
-    depth_tensor= use_metric3d.use_metric3d(rgb_file_path=img_path)
-    
+    depth_tensor = use_metric3d.use_metric3d(rgb_file_path=img_path)
+
     merged = engine.merge_depth(pred_depth=depth_tensor, t=0)
     for i in range(12):
-        save_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/'+ str(i) + '.png'
+        save_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/' + str(i) + '.png'
         show_save_masked_img(
-            depth_tensor = merged,
-            t = i,
-            origin_path = img_path,
-            save_path = save_path
+            depth_tensor=merged,
+            t=i,
+            origin_path=img_path,
+            save_path=save_path
         )
         a = input("input '1' to continue:")

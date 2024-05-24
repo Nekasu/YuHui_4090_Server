@@ -1,8 +1,8 @@
-from pydoc import visiblename
+
 import cv2
 import torch
 import numpy as np
-import matplotlib.pyplot as plt
+from PIL import Image
 
 def write_depth(file_path, pred_depth)   -> None:
     """
@@ -112,7 +112,7 @@ def merge_depth(pred_depth, t)->torch.Tensor:
     merged = torch.from_numpy(merged)
     return merged
 
-def get_enhanced_depth(pred_depth):
+def get_enhanced_depth(pred_depth) -> np.ndarray:
     """
     本函数作为一个工具函数, 不应该在主函数中调用.
 
@@ -120,7 +120,7 @@ def get_enhanced_depth(pred_depth):
 
     pred_depth参数：预测的深度图, 传入在cpu中的Tensor与在gpu中的Tensor均可.
 
-    返回：增强后的深度图, 供其他函数使用
+    返回：增强后的深度图, 供其他函数使用, 是一个numpy.ndarray
     """
      # 如果张量是三维的，需要去掉第一个维度
     if pred_depth.dim() == 3:
@@ -138,7 +138,7 @@ def get_enhanced_depth(pred_depth):
     depth_array_clahe = clahe.apply(depth_array)
     return depth_array_clahe
     
-def display_save_depth(pred_depth, path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/pred_depth.txt') -> None:
+def display_save_depth(pred_depth: torch.Tensor, path: str) -> None:
     """
     一个用于将深度预测结果可视化的函数.
 
@@ -150,13 +150,12 @@ def display_save_depth(pred_depth, path='/mnt/sda/zxt/3_code_area/0_code_hello/t
     """
     depth_array_clahe = get_enhanced_depth(pred_depth=pred_depth)
     # 使用Matplotlib显示图像
-    plt.imshow(depth_array_clahe, cmap='plasma')
-    plt.colorbar()  # 添加颜色条，表示深度值
-    plt.title('Depth Prediction (CLAHE Enhanced)')
-    fig = plt.gcf()
-    plt.show()
-    plt.savefig(path)
-
+    depth_array_clahe_image = Image.fromarray(depth_array_clahe)
+    depth_array_clahe_image.show()
+    
+    if path != None:
+        depth_array_clahe_image.save(fp=path)
+    
 def main() -> None:
     #### prepare data
         # 图像路径

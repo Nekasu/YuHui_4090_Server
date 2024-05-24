@@ -3,11 +3,6 @@
 探索方法如下：以图像/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/000000000001_merge.jpg为基础, 查看/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/enhanced_000000000001.jpg中属于同一类别的物体的深度信息, 打印在屏幕上.
 """
 
-from pydoc import visiblename
-import cv2
-import torch
-import numpy as np
-import matplotlib.pyplot as plt
 import engine
 import use_metric3d
 import mask_tensor
