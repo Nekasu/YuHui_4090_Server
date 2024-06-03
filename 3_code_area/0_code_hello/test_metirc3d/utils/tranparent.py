@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 import torch
+import os
 
 def make_black_transparent(img_path: str, save_path: str):
     """
@@ -36,6 +37,14 @@ def make_black_transparent(img_path: str, save_path: str):
 
 # 示例使用
 if __name__ == '__main__':
-    img_path = './outputs/4.png'
-    save_path = './outputs/4_transparent.png'
-    make_black_transparent(img_path, save_path)
+    directory_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs'
+    all_items = os.listdir(directory_path)
+    print(all_items)
+    
+    input_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs'
+    output_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/transparent_outputs'
+    
+    for img_name in all_items:
+        img_path = input_dir + '/' + img_name
+        save_path = output_dir + '/transparent_' + img_name
+        make_black_transparent(img_path, save_path)
