@@ -44,9 +44,9 @@ if __name__ == '__main__':
     print(all_items)
     
     # 处理完毕后将图像保存的路径
-    output_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/transparent_outputs'
+    output_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/transparent_outputs/img_background'
     
     for img_name in all_items:
         img_path = input_dir + '/' + img_name
-        save_path = output_dir + '/transparent_' + img_name
+        save_path = output_dir + '/' + 'transparent_' + img_name
         make_black_transparent(img_path, save_path)
