@@ -5,27 +5,20 @@ import mask_tensor
 import use_metric3d
 import engine
 
-def show_save_masked_img(depth_tensor: torch.Tensor, t, origin_path: str, save_path: str):
+def show_save_masked_img(masked_depth: torch.Tensor, origin_path: str, save_path: str, isshow=False):
     """
-    一个用于将深度预测信息生成掩膜, 并应用到原图像上的函数.
+    一个用于将深度预测信息掩膜应用到原图像上的函数.
 
-    depth_tensor: torch.Tensor, 深度预测信息, 可以在cpu上, 也可以在gpu上;
-
-    t参数: 需要掩膜的数值, 例如, 如果t=4, 则将深度检测张量中数值不为4的分量全部改成0;
+    masked_depth: torch.Tensor, 掩膜化的深度信息, 由mask_tensor文件中的mask_tensor函数或mask_negative_tensor函数生成;
 
     origin_path: str, 原始图像路径;
 
     save_path: str, 保存路径
+    
+    isshow:bool, 用于判断该函数时候需要显示掩膜化的图像
 
     返回值: None, 无返回值
     """
-    # 获取掩膜
-    mask = mask_tensor.get_mask_tensor(
-        depth_tensor=depth_tensor,
-        t=t,
-        mode='tensor'
-    ).byte()  # 确保掩膜为uint8类型
-
     # 读取图像
     origin_img = Image.open(fp=origin_path)
     origin_img_array = np.array(origin_img)
@@ -34,7 +27,7 @@ def show_save_masked_img(depth_tensor: torch.Tensor, t, origin_path: str, save_p
     origin_img_tensor = torch.from_numpy(origin_img_array).byte()
 
     # unsqueeze 在最后一个维度添加一个维度
-    expanded_mask = mask.unsqueeze(2)  # 形状 [853, 1280, 1]
+    expanded_mask = masked_depth.unsqueeze(2)  # 形状 [853, 1280, 1]
 
     # 广播 mask 使其与 origin_img_tensor 相同形状
     expanded_mask = expanded_mask.expand(-1, -1, 3)  # 形状 [853, 1280, 3]
@@ -48,8 +41,9 @@ def show_save_masked_img(depth_tensor: torch.Tensor, t, origin_path: str, save_p
     
     masked_img_image = Image.fromarray(masked_img_array)
 
-    # 使用 PIL.Image 显示带有掩膜的 图像
-    masked_img_image.show()
+    if isshow:
+        # 使用 PIL.Image 显示带有掩膜的 图像
+        masked_img_image.show()
 
     # 保存图像到文件
     if save_path is not None:
@@ -57,16 +51,21 @@ def show_save_masked_img(depth_tensor: torch.Tensor, t, origin_path: str, save_p
 
 if __name__ == '__main__':
     img_path = '/mnt/sda/zxt/z_datas/imgs/1_origin_data/large_perspective_1.png'
-    save_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/'
+    save_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/img_background/'
     depth_tensor = use_metric3d.use_metric3d(rgb_file_path=img_path)
 
     merged = engine.merge_depth(pred_depth=depth_tensor, t=0)
     for i in range(12):
-        save_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/' + str(i) + '.png'
-        show_save_masked_img(
+        print(f"processing the {i}th depth info...")
+        save_name = save_path + str(i) + '.png'
+        masked_tensor = mask_tensor.get_negative_mask_tensor(
             depth_tensor=merged,
-            t=i,
-            origin_path=img_path,
-            save_path=save_path
+            t = i,
+            mode = 'tensor'
         )
-        a = input("input '1' to continue:")
+        show_save_masked_img(
+            masked_depth=masked_tensor,
+            origin_path=img_path,
+            save_path=save_name
+        )
+        
