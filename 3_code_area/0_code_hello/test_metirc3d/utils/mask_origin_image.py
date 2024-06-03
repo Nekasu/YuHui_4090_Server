@@ -57,7 +57,7 @@ if __name__ == '__main__':
     merged = engine.merge_depth(pred_depth=depth_tensor, t=0)
     for i in range(12):
         print(f"processing the {i}th depth info...")
-        save_name = save_path + str(i) + '.png'
+        save_name = save_path + 'background_'+ str(i) + '.png'
         masked_tensor = mask_tensor.get_negative_mask_tensor(
             depth_tensor=merged,
             t = i,

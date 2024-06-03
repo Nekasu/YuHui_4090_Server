@@ -37,11 +37,13 @@ def make_black_transparent(img_path: str, save_path: str):
 
 # 示例使用
 if __name__ == '__main__':
-    directory_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs'
-    all_items = os.listdir(directory_path)
+    # 需要处理的图像所在的文件夹
+    input_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/img_background'
+    # 获取文件夹中的内容
+    all_items = os.listdir(input_dir)
     print(all_items)
     
-    input_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs'
+    # 处理完毕后将图像保存的路径
     output_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/transparent_outputs'
     
     for img_name in all_items:
