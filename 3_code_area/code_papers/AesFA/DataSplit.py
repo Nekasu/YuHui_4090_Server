@@ -58,12 +58,28 @@ class DataSplit(nn.Module):
             assert len(self.images) == len(self.style_images)
             
         elif phase == 'test':
-            # 如果当前为测试模式, 则直接获取从Config.py中获取内容图像与风格图像的存储路径, 并利用get_data函数获取文件名列表
+            # 如果当前为测试模式, 则直接获取从Config.py中获取内容图像与风格图像的存储路径, 并利用get_data函数获取文件名列表       
             img_dir = Path(config.content_dir)
             self.images = self.get_data(img_dir)[:config.data_num]
             
             sty_dir = Path(config.style_dir)
             self.style_images = self.get_data(sty_dir)[:config.data_num]
+            
+            ################################zxt修改部分begin##########################
+             # 以下的if-elif语句用于使 风格数据集中的数据量 与 内容数据集中的数据量 保持一致
+            # 如果 内容数据集中的数据量少了, 则使用同样数量的风格数据集
+            if len(self.images) < len(self.style_images): # 如果 内容数据集中的数据量 小于 风格数据集中的数据量
+                self.style_images = random.sample(self.style_images, len(self.images)) # 则进行随机采样, 从风格图像中用与内容图像数量相同的图像
+            # 如果 风格数据集中的数据量少了, 则重复使用风格数据集多次
+            elif len(self.images) > len(self.style_images): # 如果 内容数据集中的数据量 大于 风格数据集中的数据量
+                ratio = len(self.images) // len(self.style_images) # 计算 内容数据集中的数据量 是 风格数据集中数据量 的几倍, 取整数部分
+                bias = len(self.images) - ratio * len(self.style_images) # 计算 除整数倍外, 内容数据集中的数据量 还比 风格数据集中的数据量 多多少
+                self.style_images = self.style_images * ratio # 将风格数据集使用ratio次
+                self.style_images += random.sample(self.style_images, bias) # 最后还不够的部分使用随机采样补全
+            # assert是Python关键词, 为代码添加"断言"功能, 用于在程序运行时检查, 如果不满足条件, 则会触发 AssertionError 异常
+            assert len(self.images) == len(self.style_images)
+            ################################zxt修改部分end##########################
+            
         
         print('content dir:', img_dir)
         print('style dir:', sty_dir)
