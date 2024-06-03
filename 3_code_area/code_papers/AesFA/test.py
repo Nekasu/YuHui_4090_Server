@@ -1,7 +1,7 @@
 import os
 import torch
 import numpy as np
-# import thop
+import thop
 from PIL import Image
 from torchvision.transforms import ToTensor, Compose, Resize, CenterCrop, Normalize, RandomCrop
 import test_video
@@ -88,12 +88,12 @@ def main():
             os.makedirs(config.img_dir)
 
         ## Start Testing
-        freq = False                # whether save high, low frequency images or not
+        freq = True                # whether save high, low frequency images or not
         count = 0
         t_during = 0
 
-        contents = test_data.images
-        styles = test_data.style_images
+        contents = test_data.images # 内容图像文件名列表
+        styles = test_data.style_images # 风格图像文件名列表
         if config.multi_to_multi:   # one content image, N style image
             tot_imgs = len(contents) * len(styles)
             for idx in range(len(contents)):
@@ -120,6 +120,7 @@ def main():
 
         else:
             tot_imgs = len(contents)
+            print(len(styles))
             for idx in range(len(contents)):
                 cont_name = contents[idx]
                 content = load_img(cont_name, config.test_content_size, device)
@@ -127,7 +128,7 @@ def main():
                 sty_name = styles[idx]
                 style = load_img(sty_name, config.test_style_size, device)
 
-                if freq:
+                if freq: #如果为True, 则保存高频图与低频图
                     stylized, stylized_high, stylized_low, during = model(content, style, freq)
                     save_img(config, cont_name, sty_name, content, style, stylized, freq, stylized_high, stylized_low)
                 else:

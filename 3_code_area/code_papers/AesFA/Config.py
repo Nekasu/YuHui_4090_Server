@@ -7,8 +7,8 @@ class Config:
 
     data_num = 60000        # Maximum # of training data
 
-    content_dir = '/mnt/sda/Dataset/Detection/COCO/test2017'
-    style_dir = '/mnt/sda/Dataset/Detection/WikiArt'
+    content_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/transparent_outputs/img_main'
+    style_dir = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/main_style'
     
     file_n = 'main'
     log_dir = './log/' + file_n
@@ -16,11 +16,11 @@ class Config:
     img_dir = './Generated_images/' + file_n
     
     if phase == 'test':
-        multi_to_multi = True
+        multi_to_multi = False #True表示整个图像以one content image, N style image的形式进行测试
         test_content_size = 256
         test_style_size = 256
-        content_dir = '/mnt/sda/Dataset/Detection/COCO/test2017'
-        style_dir = '/mnt/sda/Dataset/Detection/WikiArt'
+        content_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/transparent_outputs/img_main'
+        style_dir = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/main_style'
         img_dir = './output/'+file_n+'/'+str(test_content_size)
 
     elif phase == 'style_blending':
