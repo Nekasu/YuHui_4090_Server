@@ -32,6 +32,31 @@ def get_mask_tensor(depth_tensor: torch.Tensor, t, mode='numpy'):
         return masked_array
     else:
         print("wrong mode error")
+        
+def get_negative_mask_tensor(depth_tensor: torch.Tensor, t, mode='numpy'):
+    """
+    一个用于获取带有掩膜的深度检测张量(Tensor)的函数. 与t不同的数值将被设置为1, 否则被设置为0
+
+    depth_tensor参数：需要可视化的深度预测张量(Tensor), 可以在cpu上, 也可以在gpu上;
+
+    t参数: 需要掩膜的数值, 例如, 如果t=4, 则将深度检测张量中数值不为4的分量全部改成0, 其余部分修改为1
+
+    返回：masked_array, 一个掩膜numpy数组.
+    """
+    depth_tensor = depth_tensor.cpu()
+    # 将数值不为4的分量全部改成0
+    masked_tensor = torch.where(depth_tensor == t, torch.tensor(0, dtype=torch.uint8), torch.tensor(1, dtype=torch.uint8))
+
+    mode = mode.upper()
+
+    if mode == 'TENSOR':
+        return masked_tensor
+    elif mode == 'NUMPY':
+        masked_array = masked_tensor.numpy()
+        return masked_array
+    else:
+        print("wrong mode error")
+        
 
 def show_save_mask(depth_tensor: torch.Tensor, t, save_path=None):
     """
