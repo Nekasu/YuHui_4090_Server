@@ -27,6 +27,11 @@ def im_convert(tensor):
     return image
 
 def do_transform(img, osize):
+    '''
+    一个供本文件中load_img函数使用的函数, 没有在其他地方使用
+    
+    本函数的作用在于对输入的图像进行变换, 使用的是torchvision.tranforms模块中的各种类
+    '''
     transform = Compose([Resize(size=osize),  # Resize to keep aspect ratio
                         CenterCrop(size=osize),
                         ToTensor(),

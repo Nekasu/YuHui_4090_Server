@@ -22,6 +22,8 @@ class DataSplit(nn.Module):
     魔法函数__init__为构造函数;
     魔法函数__len__已定义；
     魔法函数__getitem__已定义；
+    
+    构造函数参数列表中的config是“cConfig.py”中的Config类的实例
     """
     def __init__(self, config, phase='train'):
         super(DataSplit, self).__init__()
@@ -56,6 +58,7 @@ class DataSplit(nn.Module):
             assert len(self.images) == len(self.style_images)
             
         elif phase == 'test':
+            # 如果当前为测试模式, 则直接获取从Config.py中获取内容图像与风格图像的存储路径, 并利用get_data函数获取文件名列表
             img_dir = Path(config.content_dir)
             self.images = self.get_data(img_dir)[:config.data_num]
             
@@ -65,10 +68,16 @@ class DataSplit(nn.Module):
         print('content dir:', img_dir)
         print('style dir:', sty_dir)
             
-    def __len__(self): #返回内容数据集中的图像数量, 风格数据集中的数量需要与这个值保持一致
+    def __len__(self):
+        """
+        返回内容数据集中的图像数量, 风格数据集中的数量需要与这个值保持一致
+        """
         return len(self.images)
     
-    def get_data(self, img_dir):  #获取文件夹中所有['*.jpg', '*.png', '*.jpeg', '*.tif']文件, 返回包含所有图像文件名的列表
+    def get_data(self, img_dir):  
+        """
+        获取文件夹中所有['*.jpg', '*.png', '*.jpeg', '*.tif']文件, 返回包含所有图像文件名的列表
+        """
         file_type = ['*.jpg', '*.png', '*.jpeg', '*.tif']
         imgs = []
         for ft in file_type:
@@ -77,10 +86,13 @@ class DataSplit(nn.Module):
         return images
 
     def __getitem__(self, index):
+        """
+        从 self.images 列表中获取对应编号的内容与风格图片的名称, 并使用定义的Transform模块处理图像, 包括Resize,
+        """
         cont_img = self.images[index] # 从 self.images 列表中获取对应编号的内容图片名称
         cont_img = Image.open(cont_img).convert('RGB') # 使用PIL中Image包以RGB的模式打开对应的内容图像
 
-        sty_img = self.style_images[index]# 从 self.style_images 列表中获取对应编号的内容图片名称
+        sty_img = self.style_images[index]# 从 self.style_images 列表中获取对应编号的风格图片名称
         sty_img = Image.open(sty_img).convert('RGB') # 使用PIL中Image包以RGB的模式打开对应的风格图像
         sty_img = self.transform(sty_img) # 使用定义的Transform模块处理图像, 包括Resize, RandomCrop, ToTensor与Normalize
 

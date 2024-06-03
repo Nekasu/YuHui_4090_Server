@@ -1,4 +1,7 @@
 class Config:
+    '''
+    一个工具类, 里面全是表示配置信息的字符串或整型数. 其他文件将从这个类中获取配置信息
+    '''
     phase = 'test'         # You must change the phase into train/test/style_blending
     train_continue = 'off'  # on / off
 
