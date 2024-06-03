@@ -138,7 +138,7 @@ def get_enhanced_depth(pred_depth) -> np.ndarray:
     depth_array_clahe = clahe.apply(depth_array)
     return depth_array_clahe
     
-def display_save_depth(pred_depth: torch.Tensor, path: str) -> None:
+def display_save_depth(pred_depth: torch.Tensor, path=None) -> None:
     """
     一个用于将深度预测结果可视化的函数.
 
@@ -159,9 +159,7 @@ def display_save_depth(pred_depth: torch.Tensor, path: str) -> None:
 def main() -> None:
     #### prepare data
         # 图像路径
-    rgb_file = '/mnt/sda/zxt/z_datas/imgs/1_origin_data/large_perspective_1.png'
-        # 保存深度信息的文件路径
-    file_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/pred_depth.txt'
+    rgb_file = '/mnt/sda/zxt/z_datas/imgs/3_style_data/fu_rong.jpg'
         # 将可视化深度信息图像保存的路径
     origin_rgb_file_name = rgb_file.split(sep='/')[-1]
     visible_file_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/enhanced_'+origin_rgb_file_name
@@ -199,9 +197,10 @@ def main() -> None:
     # write_depth(file_path=file_path, pred_depth=pred_depth)
 
     # # or display and save it
-    merged = merge_depth(pred_depth=pred_depth, t=0)
-    print(f"after merging, the depth_info is {merged}")
-    display_save_depth(pred_depth=merged, path=visible_file_path)
+    
+    # merged = merge_depth(pred_depth=pred_depth, t=0)
+    # print(f"after merging, the depth_info is {merged}")
+    display_save_depth(pred_depth=pred_depth, path=visible_file_path)
     
 if __name__ == '__main__':
     main()

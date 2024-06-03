@@ -1,5 +1,5 @@
 class Config:
-    phase = 'train'         # You must change the phase into train/test/style_blending
+    phase = 'test'         # You must change the phase into train/test/style_blending
     train_continue = 'off'  # on / off
 
     data_num = 60000        # Maximum # of training data

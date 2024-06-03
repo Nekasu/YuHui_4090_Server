@@ -1,9 +1,10 @@
 import os
 import torch
 import numpy as np
-import thop
+# import thop
 from PIL import Image
 from torchvision.transforms import ToTensor, Compose, Resize, CenterCrop, Normalize, RandomCrop
+import test_video
 
 from Config import Config
 from DataSplit import DataSplit

@@ -9,7 +9,7 @@ import torch
 import numpy as np
 from PIL import Image
 
-def get_mask_tensor(depth_tensor: torch.Tensor, t, mode='numpy'):
+def get_mask_tensor(depth_tensor: torch.Tensor, t, mode='tensor'):
     """
     一个用于获取带有掩膜的深度检测张量(Tensor)的函数. 与t相同的数值将被设置为1, 否则被设置为0
 
@@ -33,13 +33,13 @@ def get_mask_tensor(depth_tensor: torch.Tensor, t, mode='numpy'):
     else:
         print("wrong mode error")
         
-def get_negative_mask_tensor(depth_tensor: torch.Tensor, t, mode='numpy'):
+def get_negative_mask_tensor(depth_tensor: torch.Tensor, t, mode='tensor'):
     """
-    一个用于获取带有掩膜的深度检测张量(Tensor)的函数. 与t不同的数值将被设置为1, 否则被设置为0
+    一个用于获取背景深度张量. 深度预测结果中, 与数值t相同的部分将被设置为黑色. 即主体部分被设置为白色, 以获取深度张量中的背景部分
 
     depth_tensor参数：需要可视化的深度预测张量(Tensor), 可以在cpu上, 也可以在gpu上;
 
-    t参数: 需要掩膜的数值, 例如, 如果t=4, 则将深度检测张量中数值不为4的分量全部改成0, 其余部分修改为1
+    t参数: 需要掩膜的数值, 例如, 如果t=4, 则将深度检测张量中数值不为4的分量全部改成1, 其余部分修改为0
 
     返回：masked_array, 一个掩膜numpy数组.
     """
@@ -58,7 +58,7 @@ def get_negative_mask_tensor(depth_tensor: torch.Tensor, t, mode='numpy'):
         print("wrong mode error")
         
 
-def show_save_mask(depth_tensor: torch.Tensor, t, save_path=None):
+def show_save_mask(depth_tensor: torch.Tensor, save_path=None):
     """
     一个用于可视化带有掩膜的深度检测张量(Tensor)的函数.
 
@@ -93,4 +93,5 @@ if __name__ == "__main__":
     pred_depth = use_metric3d.use_metric3d(rgb_file_path=img_path)
     merged_tensor = engine.merge_depth(pred_depth=pred_depth, t=0)
     print(f"merged_tensor is {merged_tensor}")
-    show_save_mask(depth_tensor=merged_tensor, t=2)
+    negative_mask = get_mask_tensor(depth_tensor=merged_tensor, t=4, mode='tensor')
+    engine.display_save_depth(negative_mask)
