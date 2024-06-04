@@ -4,12 +4,15 @@ import torch
 import numpy as np
 from PIL import Image
 
-def write_depth(file_path, pred_depth)   -> None:
+def write_depth(pred_depth, file_path)   -> None:
     """
     一个用于将深度信息保存起来的函数.
     以张量(Tensor)的形式传入深度信息，将其保存到指定路径的文件中.
-    file_path参数：保存深度信息的文件路径.
+    
     pred_depth参数：存储深度信息的张量(Tensor).
+    
+    file_path参数：保存深度信息的文件路径.
+    
     返回：无返回值.
     """
     with open(file=file_path, mode='w') as f:
