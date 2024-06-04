@@ -5,6 +5,7 @@
 
 """
 
+from ast import List
 import torch
 import numpy as np
 from PIL import Image
@@ -61,6 +62,58 @@ def get_negative_mask_tensor(depth_tensor: torch.Tensor, t: int, mode='tensor'):
     else:
         print("wrong mode error")
         
+        
+def get_range_mask_tensor(depth_tensor: torch.Tensor, list_t: List, mode='tensor'):
+    """
+    一个用于获取带有掩膜的深度检测张量(Tensor)的函数. 与t相同的数值将被设置为1, 否则被设置为0
+
+    depth_tensor参数：需要可视化的深度预测张量(Tensor), 可以在cpu上, 也可以在gpu上;
+
+    list_t参数: 一个列表, 表示需要掩膜的数值, 例如, 如果t=[1,2,3,4], 则将深度检测张量中数值不为[1,2,3,4]的分量全部改成0, 其余部分修改为1
+
+    mode参数：用于控制返回值类型, 可以为numpy或tensor, 默认为tensor
+
+    返回：一个掩膜数组, 返回值类型与str参数保持一致
+    """
+    depth_tensor = depth_tensor.cpu()
+    # 将数值不为4的分量全部改成0
+    masked_tensor = torch.where(depth_tensor in list_t, torch.tensor(1, dtype=torch.uint8), torch.tensor(0, dtype=torch.uint8))
+
+    mode = mode.upper()
+
+    if mode == 'TENSOR':
+        return masked_tensor
+    elif mode == 'NUMPY':
+        masked_array = masked_tensor.numpy()
+        return masked_array
+    else:
+        print("wrong mode error")
+
+def get_range_negative_mask_tensor(depth_tensor: torch.Tensor, list_t: List, mode='tensor'):
+    """
+    一个用于获取背景深度张量. 深度预测结果中, 与数值t相同的部分将被设置为黑色. 即主体部分被设置为白色, 以获取深度张量中的背景部分
+
+    depth_tensor参数：需要可视化的深度预测张量(Tensor), 可以在cpu上, 也可以在gpu上;
+
+    list_t参数: 一个列表, 表示需要掩膜的数值, 例如, 如果t=[1,2,3,4], 则将深度检测张量中数值不为[1,2,3,4]的分量全部改成1, 其余部分修改为0
+    
+    mode参数：用于控制返回值类型, 可以为numpy或tensor, 默认为tensor
+
+    返回：一个掩膜数组, 返回值类型与str参数保持一致
+    """
+    depth_tensor = depth_tensor.cpu()
+    # 将数值不为4的分量全部改成0
+    masked_tensor = torch.where(depth_tensor in list_t, torch.tensor(0, dtype=torch.uint8), torch.tensor(1, dtype=torch.uint8))
+
+    mode = mode.upper()
+
+    if mode == 'TENSOR':
+        return masked_tensor
+    elif mode == 'NUMPY':
+        masked_array = masked_tensor.numpy()
+        return masked_array
+    else:
+        print("wrong mode error")
 
 def show_save_mask(depth_tensor: torch.Tensor, save_path=None):
     """
