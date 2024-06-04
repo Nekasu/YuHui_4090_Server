@@ -109,7 +109,7 @@ if __name__ == '__main__':
     merged_depth = engine.merge_depth(pred_depth=depth_tensor, t=0)
     
     process_save_train_data_single_depth(
-        img_path_name=img_path,
+        img_path_name=img_path_name,
         depth_tensor=merged_depth,
         main_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_main',
         background_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_background',
@@ -118,7 +118,7 @@ if __name__ == '__main__':
         )
     
     process_save_train_data_multi_depth(
-        img_path_name=img_path,
+        img_path_name=img_path_name,
         depth_tensor=merged_depth,
         main_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_main',
         background_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_background',

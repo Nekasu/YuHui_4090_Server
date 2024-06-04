@@ -141,13 +141,13 @@ def get_enhanced_depth(pred_depth) -> np.ndarray:
     depth_array_clahe = clahe.apply(depth_array)
     return depth_array_clahe
     
-def display_save_depth(pred_depth: torch.Tensor, path=None) -> None:
+def display_save_depth(pred_depth: torch.Tensor, path_name=None) -> None:
     """
     一个用于将深度预测结果可视化的函数.
 
     pred_depth参数：预测的深度图, 传入在cpu中的Tensor与在gpu中的Tensor均可.
 
-    path参数：保存深度图可视化结果的路径
+    path_name参数：保存深度图可视化结果的路径, 需要给出文件名
 
     返回：无返回值.
     """
@@ -156,8 +156,8 @@ def display_save_depth(pred_depth: torch.Tensor, path=None) -> None:
     depth_array_clahe_image = Image.fromarray(depth_array_clahe)
     depth_array_clahe_image.show()
     
-    if path != None:
-        depth_array_clahe_image.save(fp=path)
+    if path_name != None:
+        depth_array_clahe_image.save(fp=path_name)
     
 def main() -> None:
     #### prepare data
