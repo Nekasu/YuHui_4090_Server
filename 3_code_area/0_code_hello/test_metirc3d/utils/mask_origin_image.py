@@ -1,9 +1,9 @@
 import torch
 import numpy as np
 from PIL import Image
-import mask_tensor
-import use_metric3d
-import engine
+from utils import mask_tensor
+from utils import use_metric3d
+from utils import engine
 
 def show_save_masked_img(masked_depth: torch.Tensor, origin_path: str, save_path: str, isshow=False):
     """
@@ -26,12 +26,16 @@ def show_save_masked_img(masked_depth: torch.Tensor, origin_path: str, save_path
     # 转换为Tensor类型
     origin_img_tensor = torch.from_numpy(origin_img_array).byte()
 
-    # unsqueeze 在最后一个维度添加一个维度
-    expanded_mask = masked_depth.unsqueeze(2)  # 形状 [853, 1280, 1]
-
-    # 广播 mask 使其与 origin_img_tensor 相同形状
-    expanded_mask = expanded_mask.expand(-1, -1, 3)  # 形状 [853, 1280, 3]
-
+    if(len(origin_img_tensor.size())==3): # 如果原图有三个通道, 则将掩膜也加入第三个通道, 否则不进行处理
+            # unsqueeze 在最后一个维度添加一个维度
+        expanded_mask = masked_depth.unsqueeze(2)  # 形状 [853, 1280, 1]
+        # 广播 mask 使其与 origin_img_tensor 相同形状
+        expanded_mask = expanded_mask.expand(-1, -1, 3)  # 形状 [853, 1280, 3]
+    else:
+        expanded_mask = masked_depth
+    
+    print(origin_img_tensor.size())
+    print(len(expanded_mask.size()))
     # 逐元素相乘得到掩膜处理后的图像
     masked_img_tensor = origin_img_tensor * expanded_mask
 

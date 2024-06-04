@@ -76,8 +76,10 @@ def get_range_mask_tensor(depth_tensor: torch.Tensor, list_t: List, mode='tensor
     返回：一个掩膜数组, 返回值类型与str参数保持一致
     """
     depth_tensor = depth_tensor.cpu()
+    
+    tensor_t = torch.tensor(list_t)
     # 将数值不为4的分量全部改成0
-    masked_tensor = torch.where(depth_tensor in list_t, torch.tensor(1, dtype=torch.uint8), torch.tensor(0, dtype=torch.uint8))
+    masked_tensor = torch.where(torch.isin(depth_tensor, tensor_t), torch.tensor(1, dtype=torch.uint8), torch.tensor(0, dtype=torch.uint8))
 
     mode = mode.upper()
 
@@ -102,8 +104,10 @@ def get_range_negative_mask_tensor(depth_tensor: torch.Tensor, list_t: List, mod
     返回：一个掩膜数组, 返回值类型与str参数保持一致
     """
     depth_tensor = depth_tensor.cpu()
+    
+    tensor_t = torch.tensor(list_t)
     # 将数值不为4的分量全部改成0
-    masked_tensor = torch.where(depth_tensor in list_t, torch.tensor(0, dtype=torch.uint8), torch.tensor(1, dtype=torch.uint8))
+    masked_tensor = torch.where(torch.isin(depth_tensor, tensor_t), torch.tensor(0, dtype=torch.uint8), torch.tensor(1, dtype=torch.uint8))
 
     mode = mode.upper()
 
