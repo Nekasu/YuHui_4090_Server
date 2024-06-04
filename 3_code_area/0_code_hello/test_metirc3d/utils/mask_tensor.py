@@ -17,7 +17,9 @@ def get_mask_tensor(depth_tensor: torch.Tensor, t, mode='tensor'):
 
     t参数: 需要掩膜的数值, 例如, 如果t=4, 则将深度检测张量中数值不为4的分量全部改成0, 其余部分修改为1
 
-    返回：masked_array, 一个掩膜numpy数组.
+    mode参数：用于控制返回值类型, 可以为numpy或tensor, 默认为tensor
+
+    返回：一个掩膜数组, 返回值类型与str参数保持一致
     """
     depth_tensor = depth_tensor.cpu()
     # 将数值不为4的分量全部改成0
@@ -40,8 +42,10 @@ def get_negative_mask_tensor(depth_tensor: torch.Tensor, t, mode='tensor'):
     depth_tensor参数：需要可视化的深度预测张量(Tensor), 可以在cpu上, 也可以在gpu上;
 
     t参数: 需要掩膜的数值, 例如, 如果t=4, 则将深度检测张量中数值不为4的分量全部改成1, 其余部分修改为0
+    
+    mode参数：用于控制返回值类型, 可以为numpy或tensor, 默认为tensor
 
-    返回：masked_array, 一个掩膜numpy数组.
+    返回：一个掩膜数组, 返回值类型与str参数保持一致
     """
     depth_tensor = depth_tensor.cpu()
     # 将数值不为4的分量全部改成0
