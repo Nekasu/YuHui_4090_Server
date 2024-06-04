@@ -34,8 +34,6 @@ def show_save_masked_img(masked_depth: torch.Tensor, origin_path: str, save_path
     else:
         expanded_mask = masked_depth
     
-    print(origin_img_tensor.size())
-    print(len(expanded_mask.size()))
     # 逐元素相乘得到掩膜处理后的图像
     masked_img_tensor = origin_img_tensor * expanded_mask
 
