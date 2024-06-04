@@ -17,57 +17,59 @@ from utils import mask_origin_image
 from utils import tranparent
 
 
-def process_save_train_data_single_depth(img_path:str, depth_tensor:torch.Tensor, main_save_path:str, background_save_path:str, lower_bound:int, higher_bound:int):
+def process_save_train_data_single_depth(img_path_name:str, depth_tensor:torch.Tensor, main_save_path:str, background_save_path:str, lower_bound:int, higher_bound:int):
     """
     一个用于处理内容图像的函数, 用于将输入图像按传入的深度信息进行处理并分离
     
     process_save表示这个函数用于处理并存储图像；train_data表示这个函数用于处理并存储训练数据；single_depth表示该函数无法将多个深度信息融合
     
-    img_path参数：表示需要处理的图像的路径
+    img_path_name参数：表示需要处理的图像的路径, 需要给出文件名
     
     depth_tensor参数：表示根据什么深度信息进行处理
     
-    main_save_path：表示处理后图像主体内容的保存路径
+    main_save_path：表示处理后图像主体内容的保存路径, 无须给出文件名
     
-    background_save_path：表示处理后图像背景部分的保存路径
+    background_save_path：表示处理后图像背景部分的保存路径, 无须给出文件名
     
     lower_bound与higer_bound参数：程序将对lower_bound与higer_bound之间(左闭右开)的深度进行分层, 其结果一共有higer_bound-lower_bound张图像
     
-    """    
+    """
     for i in range(lower_bound,higher_bound):
         print(f"processing the {i}th depth info...")
         
         # 处理主体信息
+        main_save_path_name = main_save_path + '/' + str(i) + '.png'
         masked_tensor = mask_tensor.get_mask_tensor(depth_tensor=depth_tensor, t=i, mode='tensor')
         mask_origin_image.show_save_masked_img(
             masked_depth = masked_tensor,
-            origin_path = img_path,
-            save_path= main_save_path,
+            origin_path = img_path_name,
+            save_path= main_save_path_name,
             isshow=False
         )
             
         # 处理背景信息
+        background_save_path_name = background_save_path + '/' + str(i) + '.png'
         negative_masked_tensor = mask_tensor.get_negative_mask_tensor(depth_tensor=depth_tensor, t=i, mode='tensor')
         mask_origin_image.show_save_masked_img(
             masked_depth=negative_masked_tensor,
-            origin_path=img_path,
-            save_path=background_save_path,
+            origin_path=img_path_name,
+            save_path=background_save_path_name,
             isshow=False
         )
 
-def process_save_train_data_multi_depth(img_path:str, depth_tensor:torch.Tensor, main_save_path:str, background_save_path:str, lower_bound:int, higher_bound:int):
+def process_save_train_data_multi_depth(img_path_name:str, depth_tensor:torch.Tensor, main_save_path:str, background_save_path:str, lower_bound:int, higher_bound:int):
     """
     一个用于处理内容图像的函数, 用于将输入图像按传入的深度信息进行处理并分离
     
     process_save表示这个函数用于处理并存储图像；train_data表示这个函数用于处理并存储训练数据；multi_depth表示该函数可以将多个深度信息当作掩膜
     
-    img_path参数：表示需要处理的图像的路径
+    img_path_name参数：表示需要处理的图像的路径, 需要给出文件名
     
     depth_tensor参数：表示根据什么深度信息进行处理
     
-    main_save_path：表示处理后图像主体内容的保存路径
+    main_save_path：表示处理后图像主体内容的保存路径, 需要给出文件名
     
-    background_save_path：表示处理后图像背景部分的保存路径
+    background_save_path：表示处理后图像背景部分的保存路径, 需要给出文件名
     
     lower_bound与higer_bound参数：程序将对lower_bound与higher_bound之间(左闭右开)的深度均进行掩膜处理, 其结果将呈现在一张图上, 最终仅有一张图像
     
@@ -79,18 +81,20 @@ def process_save_train_data_multi_depth(img_path:str, depth_tensor:torch.Tensor,
     negative_masked_tensor = mask_tensor.get_range_negative_mask_tensor(depth_tensor=depth_tensor, list_t=list_t, mode='tensor')
     
     # 处理主体信息
+    main_save_path_name = main_save_path + '/' + str(lower_bound) + '_' + str(higher_bound) +'_main.png'
     mask_origin_image.show_save_masked_img(
         masked_depth = masked_tensor,
-        origin_path = img_path,
-        save_path=main_save_path,
+        origin_path = img_path_name,
+        save_path=main_save_path_name,
         isshow=False
     )
     
     # 处理背景信息
+    background_save_path_name = main_save_path + '/' + str(lower_bound) + '_' + str(higher_bound) +'main.png'
     mask_origin_image.show_save_masked_img(
         masked_depth=negative_masked_tensor,
-        origin_path=img_path,
-        save_path=background_save_path,
+        origin_path=img_path_name,
+        save_path=background_save_path_name,
         isshow=False
     )
             
@@ -112,3 +116,9 @@ if __name__ == '__main__':
         higher_bound=13
         )
     
+    process_save_train_data_multi_depth(
+        img_path=img_path,
+        depth_tensor=depth_tensor,
+        main_save_path_name='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_main'
+        
+    )

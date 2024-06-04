@@ -5,22 +5,22 @@ from utils import mask_tensor
 from utils import use_metric3d
 from utils import engine
 
-def show_save_masked_img(masked_depth: torch.Tensor, origin_path: str, save_path: str, isshow=False):
+def show_save_masked_img(masked_depth: torch.Tensor, origin_path_name: str, save_path_name: str, isshow=False):
     """
     一个用于将深度预测信息掩膜应用到原图像上的函数.
 
     masked_depth: torch.Tensor, 掩膜化的深度信息, 由mask_tensor文件中的mask_tensor函数或mask_negative_tensor函数生成;
 
-    origin_path: str, 原始图像路径;
+    origin_path_name: str, 原始图像路径, 需要给出文件名
 
-    save_path: str, 保存路径
+    save_path_name: str, 保存路径, 需要给出文件名
     
     isshow:bool, 用于判断该函数时候需要显示掩膜化的图像
 
     返回值: None, 无返回值
     """
     # 读取图像
-    origin_img = Image.open(fp=origin_path)
+    origin_img = Image.open(fp=origin_path_name)
     origin_img_array = np.array(origin_img)
 
     # 转换为Tensor类型
@@ -48,8 +48,8 @@ def show_save_masked_img(masked_depth: torch.Tensor, origin_path: str, save_path
         masked_img_image.show()
 
     # 保存图像到文件
-    if save_path is not None:
-        masked_img_image.save(fp=save_path)
+    if save_path_name is not None:
+        masked_img_image.save(fp=save_path_name)
 
 if __name__ == '__main__':
     img_path = '/mnt/sda/zxt/z_datas/imgs/1_origin_data/large_perspective_1.png'
