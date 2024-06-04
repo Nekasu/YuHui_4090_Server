@@ -9,7 +9,7 @@ import torch
 import numpy as np
 from PIL import Image
 
-def get_mask_tensor(depth_tensor: torch.Tensor, t, mode='tensor'):
+def get_mask_tensor(depth_tensor: torch.Tensor, t: int, mode='tensor'):
     """
     一个用于获取带有掩膜的深度检测张量(Tensor)的函数. 与t相同的数值将被设置为1, 否则被设置为0
 
@@ -35,7 +35,7 @@ def get_mask_tensor(depth_tensor: torch.Tensor, t, mode='tensor'):
     else:
         print("wrong mode error")
         
-def get_negative_mask_tensor(depth_tensor: torch.Tensor, t, mode='tensor'):
+def get_negative_mask_tensor(depth_tensor: torch.Tensor, t: int, mode='tensor'):
     """
     一个用于获取背景深度张量. 深度预测结果中, 与数值t相同的部分将被设置为黑色. 即主体部分被设置为白色, 以获取深度张量中的背景部分
 
