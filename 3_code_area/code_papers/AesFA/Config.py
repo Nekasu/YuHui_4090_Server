@@ -21,7 +21,7 @@ class Config:
         test_style_size = 256
         content_dir = content_dir
         style_dir = style_dir
-        img_dir = './output/'+file_n+'/'+ 'cameraman'
+        img_dir = './output/'+file_n+'/'+ 'cameraman' + '/' + 'backgound'
 
     elif phase == 'style_blending':
         blend_load_size = 256
