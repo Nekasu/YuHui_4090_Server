@@ -42,8 +42,8 @@ def process_save_train_data_single_depth(img_path_name:str, depth_tensor:torch.T
         masked_tensor = mask_tensor.get_mask_tensor(depth_tensor=depth_tensor, t=i, mode='tensor')
         mask_origin_image.show_save_masked_img(
             masked_depth = masked_tensor,
-            origin_path = img_path_name,
-            save_path= main_save_path_name,
+            origin_path_name = img_path_name,
+            save_path_name= main_save_path_name,
             isshow=False
         )
             
@@ -52,8 +52,8 @@ def process_save_train_data_single_depth(img_path_name:str, depth_tensor:torch.T
         negative_masked_tensor = mask_tensor.get_negative_mask_tensor(depth_tensor=depth_tensor, t=i, mode='tensor')
         mask_origin_image.show_save_masked_img(
             masked_depth=negative_masked_tensor,
-            origin_path=img_path_name,
-            save_path=background_save_path_name,
+            origin_path_name=img_path_name,
+            save_path_name=background_save_path_name,
             isshow=False
         )
 
@@ -84,17 +84,17 @@ def process_save_train_data_multi_depth(img_path_name:str, depth_tensor:torch.Te
     main_save_path_name = main_save_path + '/' + str(lower_bound) + '_' + str(higher_bound) +'_main.png'
     mask_origin_image.show_save_masked_img(
         masked_depth = masked_tensor,
-        origin_path = img_path_name,
-        save_path=main_save_path_name,
+        origin_path_name = img_path_name,
+        save_path_name=main_save_path_name,
         isshow=False
     )
     
     # 处理背景信息
-    background_save_path_name = main_save_path + '/' + str(lower_bound) + '_' + str(higher_bound) +'main.png'
+    background_save_path_name = background_save_path + '/' + str(lower_bound) + '_' + str(higher_bound) +'main.png'
     mask_origin_image.show_save_masked_img(
         masked_depth=negative_masked_tensor,
-        origin_path=img_path_name,
-        save_path=background_save_path_name,
+        origin_path_name=img_path_name,
+        save_path_name=background_save_path_name,
         isshow=False
     )
             
@@ -106,19 +106,22 @@ if __name__ == '__main__':
     depth_tensor = use_metric3d.use_metric3d(rgb_file_path=img_path) #获取深度预测结果
     # engine.display_save_depth(pred_depth=depth_tensor, path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/01_cameraman_pred_depth.png')
     # engine.write_depth(file_path="/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/depth.txt", pred_depth=depth_tensor)
+    merged_depth = engine.merge_depth(pred_depth=depth_tensor, t=0)
     
     process_save_train_data_single_depth(
-        img_path=img_path,
+        img_path_name=img_path,
+        depth_tensor=merged_depth,
         main_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_main',
         background_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_background',
-        t=0,
         lower_bound=1,
         higher_bound=13
         )
     
     process_save_train_data_multi_depth(
-        img_path=img_path,
-        depth_tensor=depth_tensor,
-        main_save_path_name='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_main'
-        
+        img_path_name=img_path,
+        depth_tensor=merged_depth,
+        main_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_main',
+        background_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_background',
+        lower_bound=5,
+        higher_bound=26
     )
