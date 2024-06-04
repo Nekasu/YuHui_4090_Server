@@ -88,7 +88,7 @@ def main():
             os.makedirs(config.img_dir)
 
         ## Start Testing
-        freq = True                # whether save high, low frequency images or not
+        freq = False                # whether save high, low frequency images or not
         count = 0
         t_during = 0
 
