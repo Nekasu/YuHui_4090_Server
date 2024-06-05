@@ -119,13 +119,13 @@ def process_save_train_data_multi_depth(img_path_name:str, depth_tensor:torch.Te
             
     
 if __name__ == '__main__':
-    img_path_name = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/03/03.png'
+    img_path_name = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/02/02.png'
     
     
     depth_tensor = use_metric3d.use_metric3d(rgb_file_path_name=img_path_name) #获取深度预测结果
-    # engine.display_save_depth(pred_depth=depth_tensor, path_name='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/03_pred_depth.png')    
+    engine.display_save_depth(pred_depth=depth_tensor, path_name='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/02/02_pred_depth.png')    
     
-    merged_depth = engine.merge_depth(pred_depth=depth_tensor, t=1)
+    merged_depth = engine.merge_depth(pred_depth=depth_tensor, t=0)
     
     engine.write_depth(file_path_name="/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/depth.txt", pred_depth=merged_depth)
     

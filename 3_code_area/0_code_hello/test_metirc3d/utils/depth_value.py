@@ -3,10 +3,9 @@
 探索方法如下：以图像/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/000000000001_merge.jpg为基础, 查看/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/enhanced_000000000001.jpg中属于同一类别的物体的深度信息, 打印在屏幕上.
 """
 
-import engine
-import use_metric3d
-import mask_tensor
-
+from . import engine
+from . import use_metric3d
+from . import mask_tensor
 ##----------------------------------model use-------------------------------------##
 img_file_pth = '/mnt/sda/zxt/z_datas/imgs/1_origin_data/large_perspective_1.png'
 masked_path = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/masked.png'

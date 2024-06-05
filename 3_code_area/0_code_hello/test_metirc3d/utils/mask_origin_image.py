@@ -1,9 +1,9 @@
 import torch
 import numpy as np
 from PIL import Image
-from utils import mask_tensor
-from utils import use_metric3d
-from utils import engine
+from . import mask_tensor
+from . import use_metric3d
+from . import engine
 
 def show_save_masked_img(masked_depth: torch.Tensor, origin_path_name: str, save_path_name: str, isshow=False):
     """
