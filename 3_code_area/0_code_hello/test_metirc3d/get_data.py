@@ -138,20 +138,20 @@ if __name__ == '__main__':
     lower_bound = torch.min(merged_depth)
     higher_bound = torch.max(merged_depth)+1
     
-    process_save_train_data_single_depth(
-        img_path_name=img_path_name,
-        depth_tensor=merged_depth,
-        main_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/03/img_main',
-        background_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/03/img_background',
-        lower_bound=int(lower_bound),
-        higher_bound=int(higher_bound)
-        )
-    
-    # process_save_train_data_multi_depth(
+    # process_save_train_data_single_depth(
     #     img_path_name=img_path_name,
     #     depth_tensor=merged_depth,
-    #     main_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/03/img_main',
-    #     background_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/03/img_background',
-    #     lower_bound=0.0,
-    #     higher_bound=1.4
-    # )
+    #     main_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/02/img_main',
+    #     background_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/02/img_background',
+    #     lower_bound=int(lower_bound),
+    #     higher_bound=int(higher_bound)
+    #     )
+    
+    process_save_train_data_multi_depth(
+        img_path_name=img_path_name,
+        depth_tensor=merged_depth,
+        main_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/02/img_main',
+        background_save_path='/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/02/img_background',
+        lower_bound=17,
+        higher_bound=35
+    )
