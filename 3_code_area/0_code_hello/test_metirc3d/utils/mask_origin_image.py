@@ -39,7 +39,7 @@ def show_save_masked_img(masked_depth: torch.Tensor, origin_path_name: str, save
 
     # 将结果转换为NumPy数组并转换为uint8类型
     masked_img_array = masked_img_tensor.numpy().astype(np.uint8)
-    print(masked_img_array.shape)
+    # print(masked_img_array.shape)
     
     masked_img_image = Image.fromarray(masked_img_array)
 
