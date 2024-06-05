@@ -119,7 +119,7 @@ def get_range_negative_mask_tensor(depth_tensor: torch.Tensor, list_t: List, mod
     else:
         print("wrong mode error")
 
-def show_save_mask(mask_tensor: torch.Tensor, save_path=None, isshow=True):
+def show_save_mask(mask_tensor: torch.Tensor, save_path_name=None, isshow=True):
     """
     一个用于可视化带有掩膜的深度检测张量(Tensor)的函数.
 
@@ -127,14 +127,14 @@ def show_save_mask(mask_tensor: torch.Tensor, save_path=None, isshow=True):
 
     t参数: 需要掩膜的数值, 例如, 如果t=4, 则将深度检测张量中数值不为4的分量全部改成0;
 
-    path参数：保存掩膜图像的位置;
+    save_path_name参数：保存掩膜图像的位置, 需要提供文件名
     
     isshow参数：控制该函数是否将掩膜可视化, True为显示掩膜, 默认为True
 
     返回：无返回值.
     """
-    if save_path is not None:
-        mask_tensor.save(save_path)
+    if save_path_name is not None:
+        mask_tensor.save(save_path_name)
     
     mask_tensor = mask_tensor.cpu()
     
