@@ -4,22 +4,22 @@ import torch
 import numpy as np
 from PIL import Image
 
-def write_depth(pred_depth, file_path)   -> None:
+def write_depth(pred_depth, file_path_name)   -> None:
     """
     一个用于将深度信息保存起来的函数.
     以张量(Tensor)的形式传入深度信息，将其保存到指定路径的文件中.
     
     pred_depth参数：存储深度信息的张量(Tensor).
     
-    file_path参数：保存深度信息的文件路径.
+    file_path_name参数：保存深度信息的文件路径, 需要给出文件名
     
     返回：无返回值.
     """
-    with open(file=file_path, mode='w') as f:
+    with open(file=file_path_name, mode='w') as f:
         for i in range(pred_depth.size(0)):
             f.write(str(pred_depth[i])+'\n')
     
-    print(f"成功写入文件{file_path}！")
+    print(f"成功写入文件{file_path_name}！")
 
 #### ajust input size to fit pretrained model
 def adjust_input_size(image, intrinsic):# -> tuple[Any, list, list]:
