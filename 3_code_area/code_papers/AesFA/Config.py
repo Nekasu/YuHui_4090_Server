@@ -7,8 +7,8 @@ class Config:
 
     data_num = 60000        # Maximum # of training data
 
-    content_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/02/img_main'
-    style_dir = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/main_style'
+    content_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/cameraman/img_main'
+    style_dir = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/cameraman/main_style'
     
     file_n = 'main'
     log_dir = './log/' + file_n
@@ -21,7 +21,7 @@ class Config:
         test_style_size = 256
         content_dir = content_dir
         style_dir = style_dir
-        img_dir = './output/'+file_n+'/'+ '02' + '/' + 'main'
+        img_dir = './output/'+file_n+'/'+ 'cameraman' + '/' + 'main'
 
     elif phase == 'style_blending':
         blend_load_size = 256
