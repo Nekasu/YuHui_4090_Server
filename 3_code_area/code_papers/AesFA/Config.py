@@ -7,7 +7,7 @@ class Config:
 
     data_num = 60000        # Maximum # of training data
 
-    content_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/02/img_main'
+    content_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/outputs/02/merge'
     style_dir = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/main_style'
     
     file_n = 'main'
@@ -21,7 +21,7 @@ class Config:
         test_style_size = 256
         content_dir = content_dir
         style_dir = style_dir
-        img_dir = './output/'+file_n+'/'+ '02'+'/'+ 'test2' + '/' + 'main'   #ouput dir
+        img_dir = './output/'+file_n+'/'+ '02'+'/'+ 'test3' + '/' + 'main'   #ouput dir, 代码会帮忙创建文件夹, 可以不用自己创建
 
     elif phase == 'style_blending':
         blend_load_size = 256
