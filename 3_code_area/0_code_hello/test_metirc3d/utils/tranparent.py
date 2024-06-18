@@ -80,7 +80,7 @@ if __name__ == '__main__':
     # output_dir = '/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/transparent_outputs/img_background'
     
     # for img_name in all_items:
-    #     img_path = input_dir + '/' + img_name
+    #     img_path = input_dir + '/' + img_namee
     #     save_path = output_dir + '/' + 'transparent_' + img_name
     #     make_transparent_black(img_path)
     
