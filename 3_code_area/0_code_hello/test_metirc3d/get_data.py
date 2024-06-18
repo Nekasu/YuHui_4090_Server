@@ -135,8 +135,8 @@ if __name__ == '__main__':
     
     # engine.write_depth(file_path_name="/mnt/sda/zxt/3_code_area/0_code_hello/test_metirc3d/depth.txt", pred_depth=merged_depth)
     
-    lower_bound = torch.min(merged_depth)
-    higher_bound = torch.max(merged_depth)+1
+    lower_bound: torch.Tensor = torch.min(merged_depth)
+    higher_bound: torch.Tensor = torch.max(merged_depth)+1
     
     # process_save_train_data_single_depth(
     #     img_path_name=img_path_name,

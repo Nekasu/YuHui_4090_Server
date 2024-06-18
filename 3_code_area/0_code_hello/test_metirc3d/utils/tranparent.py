@@ -84,6 +84,6 @@ if __name__ == '__main__':
     #     save_path = output_dir + '/' + 'transparent_' + img_name
     #     make_transparent_black(img_path)
     
-    input_path_name = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/birds_main.png'
-    save_path_name = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/birds_mai_black.png'
+    input_path_name = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/birds_main_multi_transparent/birds_main_multi_transparent.png'
+    save_path_name = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/birds_mai_multi_black.png'
     make_transparent_black(img_path_name=input_path_name, save_path_name=save_path_name)
