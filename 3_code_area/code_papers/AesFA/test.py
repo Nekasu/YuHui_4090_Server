@@ -11,9 +11,33 @@ from DataSplit import DataSplit
 from model import AesFA_test
 from blocks import test_model_load
 
+def make_transparent_black(img):
+    """
+    将PNG图像中的透明部分变成黑色。
+
+    img_path_name: str, 输入图像路径, 需要包含文件名
+    
+    save_path_name: str, 输出图像保存路径, 需要包含文件名. 如果不填则不会保存图像, 一般用于测试该函数.
+    """
+    # 读取图像并转换为RGBA
+    img_array = np.array(img)
+
+    # 获取alpha通道
+    alpha_channel = img_array[:, :, 3]
+
+    # 创建一个新的图像数组，透明部分变成黑色
+    new_img_array = np.copy(img_array)
+    new_img_array[:, :, :3][alpha_channel == 0] = [0, 0, 0]  # 将透明部分的RGB值设置为黑色
+    new_img_array[:,:,3][alpha_channel==0]=255
+
+    # 转换为PIL图像
+    result_image = Image.fromarray(new_img_array, "RGBA").convert("RGB")
+
+    return result_image
 
 def load_img(img_name, img_size, device):
-    img = Image.open(img_name).convert('RGB')
+    img = Image.open(img_name).convert('RGBA')
+    img = make_transparent_black(img)
     img = do_transform(img, img_size).to(device)
     if len(img.shape) == 3:
         img = img.unsqueeze(0)  # make batch dimension

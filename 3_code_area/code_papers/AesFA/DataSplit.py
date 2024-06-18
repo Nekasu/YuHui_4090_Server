@@ -10,6 +10,7 @@ import torch.nn as nn
 from PIL import Image
 from torchvision.transforms import ToTensor, Compose, Resize, Normalize, RandomCrop
 import random
+import numpy as np
 
 Image.MAX_IMAGE_PIXELS = 1000000000
 
@@ -83,7 +84,6 @@ class DataSplit(nn.Module):
         
         print('content dir:', img_dir)
         print('style dir:', sty_dir)
-            
     def __len__(self):
         """
         返回内容数据集中的图像数量, 风格数据集中的数量需要与这个值保持一致
@@ -109,7 +109,7 @@ class DataSplit(nn.Module):
         cont_img = Image.open(cont_img).convert('RGB') # 使用PIL中Image包以RGB的模式打开对应的内容图像
 
         sty_img = self.style_images[index]# 从 self.style_images 列表中获取对应编号的风格图片名称
-        sty_img = Image.open(sty_img).convert(mode='RGB',colors=0) # 使用PIL中Image包以RGB的模式打开对应的风格图像
+        sty_img = Image.open(sty_img).convert(mode='RGB') # 使用PIL中Image包以RGB的模式打开对应的风格图像
         sty_img = self.transform(sty_img) # 使用定义的Transform模块处理图像, 包括Resize, RandomCrop, ToTensor与Normalize
 
         img_dict: Dict[str, Image.Image] = {'content_img': cont_img, 'style_img': sty_img} # 返回一个字典
