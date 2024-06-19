@@ -54,7 +54,7 @@ def make_transparent_black(img_path_name: str, save_path_name=None):
 
     # 创建一个新的图像数组，透明部分变成黑色
     new_img_array = np.copy(img_array)
-    new_img_array[:, :, :3][alpha_channel == 0] = [0, 0, 0]  # 将透明部分的RGB值设置为黑色
+    new_img_array[:, :, :3][alpha_channel <150] = [0, 0, 0]  # 将透明部分的RGB值设置为黑色
     new_img_array[:,:,3][alpha_channel==0]=255
 
     # 转换为PIL图像
@@ -63,10 +63,39 @@ def make_transparent_black(img_path_name: str, save_path_name=None):
     if save_path_name:
         result_image.save(save_path_name, "PNG")
 
+    return(result_image)
 # Example usage
 # result_image = make_transparent_black('input.png', 'output.png')
 # result_image.show()
+def make_lowalpha_high(img_path_name: str, save_path_name=None):
+    """
+    将PNG图像中低不透明度的地方变成高不透明度。
 
+    img_path_name: str, 输入图像路径, 需要包含文件名
+    
+    save_path_name: str, 输出图像保存路径, 需要包含文件名. 如果不填则不会保存图像, 一般用于测试该函数.
+    """
+    # 读取图像并转换为RGBA
+    image = Image.open(img_path_name).convert("RGBA")
+    img_array = np.array(image)
+
+    # 获取alpha通道
+    alpha_channel = img_array[:, :, 3]
+
+    # 创建一个新的图像数组，透明部分变成黑色
+    new_img_array = np.copy(img_array)
+    new_img_array[:, :, :3][alpha_channel ==0] = [0, 0, 0]  # 将透明部分的RGB值设置为黑色
+    new_img_array[:,:,3][alpha_channel==0]=255
+    new_img_array[:, :, 3][alpha_channel<255] = 255
+    
+
+    # 转换为PIL图像
+    result_image = Image.fromarray(new_img_array, "RGBA")
+
+    if save_path_name:
+        result_image.save(save_path_name, "PNG")
+
+    return(result_image)
 
 # 示例使用
 if __name__ == '__main__':
@@ -85,5 +114,5 @@ if __name__ == '__main__':
     #     make_transparent_black(img_path)
     
     input_path_name = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/birds_main_multi_transparent/birds_main_multi_transparent.png'
-    save_path_name = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/birds_mai_multi_black.png'
-    make_transparent_black(img_path_name=input_path_name, save_path_name=save_path_name)
+    save_path_name = '/mnt/sda/zxt/3_code_area/code_papers/AesFA/img/birds_mai_multi_black_test1.png'
+    make_lowalpha_high(img_path_name=input_path_name, save_path_name=save_path_name)
