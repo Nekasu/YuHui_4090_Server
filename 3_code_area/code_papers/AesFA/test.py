@@ -25,7 +25,7 @@ def make_transparent_black(img):
     # 获取alpha通道
     alpha_channel = img_array[:, :, 3]
 
-    # 创建一个新的图像数组，透明部分变成黑色
+    # 创建一个新的图像数组，透明部分变成黑色 
     new_img_array = np.copy(img_array)
     new_img_array[:, :, :3][alpha_channel == 0] = [0, 0, 0]  # 将透明部分的RGB值设置为黑色
     new_img_array[:,:,3][alpha_channel==0]=255
